@@ -3,16 +3,16 @@ import { cartItemActions } from '../../store/cartItem';
 import classes from './CartItem.module.css';
 
 const CartItem = (props) => {
-	const { title, quantity, total, price } = props.item;
+	const { id, title, count, total, price, description } = props.item;
 
 	const dispatch = useDispatch();
 
 	const addHandler = () => {
-		dispatch(cartItemActions.add());
+		dispatch(cartItemActions.add(props.item));
 	};
 
 	const removeHandler = () => {
-		dispatch(cartItemActions.remove());
+		dispatch(cartItemActions.remove(props.item));
 	};
 
 	return (
@@ -28,7 +28,7 @@ const CartItem = (props) => {
 			</header>
 			<div className={classes.details}>
 				<div className={classes.quantity}>
-					x <span>{quantity}</span>
+					x <span>{count}</span>
 				</div>
 				<div className={classes.actions}>
 					<button onClick={removeHandler}>-</button>
