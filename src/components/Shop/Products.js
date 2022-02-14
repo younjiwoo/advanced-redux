@@ -1,29 +1,43 @@
 import ProductItem from './ProductItem';
 import classes from './Products.module.css';
 
+const DUMMY_WINE_LIST = [
+	{
+		id: 1,
+		price: 5,
+		title: 'Sauvignon Blanc',
+		description:
+			'Pair with pasta, minced meats, potato salads, and/or asparagus.',
+	},
+	{
+		id: 2,
+		price: 7,
+		title: 'Pino Gris',
+		description:
+			'Pair with smoked meats, flaky white fish, cream sauces, citrus fruits.',
+	},
+	{
+		id: 3,
+		price: 11,
+		title: 'Riesling',
+		description: 'Pair with trout, turkey breast, semi-soft white cheeses.',
+	},
+];
+
 const Products = (props) => {
 	return (
 		<section className={classes.products}>
-			<h2>Buy your favorite products</h2>
+			<h2>🍷 Buy your favorite wines 🍷</h2>
 			<ul>
-				<ProductItem
-					id={1}
-					title="Sauvignon Blanc"
-					price={5}
-					description="Pair with pasta, minced meats, potato salads, and/or asparagus."
-				/>
-				<ProductItem
-					id={2}
-					title="Pino Gris"
-					price={7}
-					description="Pair with smoked meats, flaky white fish, cream sauces, citrus fruits."
-				/>
-				<ProductItem
-					id={3}
-					title="Riesling"
-					price={10}
-					description="Pair with trout, turkey breast, semi-soft white cheeses."
-				/>
+				{DUMMY_WINE_LIST.map((wine) => (
+					<ProductItem
+						key={wine.id}
+						id={wine.id}
+						title={wine.title}
+						price={wine.price}
+						description={wine.description}
+					/>
+				))}
 			</ul>
 		</section>
 	);
