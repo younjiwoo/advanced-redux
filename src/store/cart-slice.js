@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { uiActions } from './ui-slice';
 
 const initialState = {
 	cartItemList: [],
 	totalCount: 0,
+	cartChanged: false,
 };
 
 const cartItemSlice = createSlice({
@@ -28,6 +28,7 @@ const cartItemSlice = createSlice({
 				existingItem.count++;
 				existingItem.total += newItem.price;
 			}
+			state.cartChanged = true;
 		},
 		remove(state, action) {
 			const id = action.payload;
@@ -45,56 +46,15 @@ const cartItemSlice = createSlice({
 				existingItem.count--;
 				existingItem.total -= existingItem.price;
 			}
+			state.cartChanged = true;
+		},
+		replaceCart(state, action) {
+			state.totalCount = action.payload.totalCount;
+			state.cartItemList = action.payload.cartItemList;
+			state.cartChanged = false;
 		},
 	},
 });
-
-// action creator
-export const sendCartData = (cart) => {
-	return async (dispatch) => {
-		dispatch(
-			uiActions.showNotification({
-				status: 'pending',
-				title: 'Sending...',
-				message: 'Sending cart data... 🤖',
-			})
-		);
-
-		const sendRequest = async () => {
-			const response = await fetch(
-				'https://wine-shop-b8f60-default-rtdb.firebaseio.com/cart.json',
-				{
-					method: 'PUT',
-					body: JSON.stringify(cart),
-				}
-			);
-
-			if (!response.ok) {
-				throw new Error('failed!');
-			}
-		};
-
-		try {
-			await sendRequest();
-
-			dispatch(
-				uiActions.showNotification({
-					status: 'success',
-					title: 'Success! 😀',
-					message: 'sent cart data successfully!',
-				})
-			);
-		} catch (error) {
-			dispatch(
-				uiActions.showNotification({
-					status: 'error',
-					title: 'Error!',
-					message: 'Oh no... 😭 Sending data failed.',
-				})
-			);
-		}
-	};
-};
 
 export const cartItemActions = cartItemSlice.actions;
 
